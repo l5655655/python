@@ -1,7 +1,5 @@
 # python
 
-python库
-
 百度贴吧签到
 
 设置变量bdtbcookie为百度贴吧cookie ck用@分割多个ck 青龙格式expor bdtbcookie="odahsudh971hdw1h9gdv1bihd8917b9d1hf1bwf1b@waefudihsaofiybdioasjnfbiodayfsdafdsaudfidaso"
