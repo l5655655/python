@@ -5,38 +5,41 @@ import json
 
 bdtbck = os.getenv('bdtbcookie')
 bdtbqd = os.getenv('bdtbqdmc')
-bdtbqds=list(str("%s" % bdtbqd).split("&"))
+bdtbqds = list(str("%s" % bdtbqd).split("@"))
+bdtbcks = list(str("%s" % bdtbck).split("@"))
 print("===================百度贴吧签到脚本=====================")
 time_tuple = time.localtime(time.time())
-print("北京时间:{}年{}月{}日{}点{}分{}秒".format(time_tuple[0],time_tuple[1],time_tuple[2],time_tuple[3],time_tuple[4],time_tuple[5]))
+print("北京时间:{}年{}月{}日{}点{}分{}秒".format(time_tuple[0], time_tuple[1], time_tuple[2], time_tuple[3], time_tuple[4],
+                                       time_tuple[5]))
 print("======================================================")
-for i in range(len(bdtbqds)):
-    url = 'https://tieba.baidu.com/sign/add'
-    bdtbqd=bdtbqds[i]
-    print("正在执行签到的贴吧：%s" % bdtbqd)
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36 Edg/102.0.1245.39',
-        'cookie': ("%s" % bdtbck), }
-    data = {
-        'ie': 'utf - 8',
-        "kw": ("%s" % bdtbqd)
-    }
-    html = requests.post(url=url, headers=headers, data=data).text
-    req=json.loads(html)
-    no=(req['no'])
-    if no==0:
-        req=req['data']
-        print(req['errmsg'])
-    else:
-        print(req['error'])
-    
-    print("======================================================")
-    if i==(len(bdtbqds)-1):
-        print("")
-    else:
-        print("两秒后继续签到下一个")
-    time.sleep(2)
+for n in range(len(bdtbcks)):
+    print("正在执行第%d个账号" % n)
+    for i in range(len(bdtbqds)):
+        url = 'https://tieba.baidu.com/sign/add'
+        bdtbqd = bdtbqds[i]
+        print("正在执行签到的贴吧：%s" % bdtbqd)
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36 Edg/102.0.1245.39',
+            'cookie': ("%s" % bdtbcks), }
+        data = {
+            'ie': 'utf - 8',
+            "kw": ("%s" % bdtbqd)
+        }
+        html = requests.post(url=url, headers=headers, data=data).text
+        req = json.loads(html)
+        no = (req['no'])
+        if no == 0:
+            req = req['data']
+            print(req['errmsg'])
+        else:
+            print(req['error'])
 
+        print("======================================================")
+        if i == (len(bdtbqds) - 1):
+            print("")
+        else:
+            print("两秒后继续签到下一个")
+        time.sleep(2)
 
 start_time = time.time()
 sum = 0
