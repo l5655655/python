@@ -1,7 +1,4 @@
-# python
-
-百度贴吧签到
-
-设置变量bdtbcookie为百度贴吧cookie ck用@分割多个ck 青龙格式expor bdtbcookie="odahsudh971hdw1h9gdv1bihd8917b9d1hf1bwf1b@waefudihsaofiybdioasjnfbiodayfsdafdsaudfidaso"
-
-设置变量bdtbqdmc为想要签到的贴吧名用@分割 青龙格式export bdtbqdmc="显卡&图拉丁"
+565自用python库
+此库已有脚本
+bdtbqd-百度贴吧签到
+xmyd=小米运动刷步数
