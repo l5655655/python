@@ -52,7 +52,8 @@ def jfdh(key, pin):
     jfdata = [{"pin": "{}".format(pin), "businessNo": "7a199a16-0beb-4f99-bdb0-8758cafc9fad", "type": "1",
                "transferNumber": "100", "title": "京豆兑换物流积分"}]
     dhjf = requests.post(url=jfurl, headers=jfheaders, data=json.dumps(jfdata)).text
-    print(dhjf)
+    res = json.loads(dhjf)['msg']
+    print("京豆兑换积分:{}".format(res))
 
 
 def jddh(key, pin):
@@ -101,17 +102,18 @@ def jddh(key, pin):
     jddata = [{"pin": "{}".format(pin), "businessNo": "538862a4-fbd6-48e4-8a8e-8d2c9bb6673d", "type": "2",
                "transferNumber": "100", "title": "物流积分兑换京豆"}]
     dhjd = requests.post(url=jdurl, headers=jdheaders, data=json.dumps(jddata)).text
-    print(dhjd)
+    res = json.loads(dhjd)['msg']
+    print("积分兑换京豆:{}".format(res))
 
 
 if __name__ == "__main__":
     for i in CookieJDs:
         key=i.split("pt_key=")[1].split(";")[0]
         pin=i.split("pt_pin=")[1].split(";")[0]
-        print("开始第{}个账号".format(num),"账号名为{}".format(pin))
+        print("-------------开始第{}个账号".format(num),"账号名为{}------------".format(pin))
         jfdh(key,pin)
         time.sleep(5)
         jddh(key,pin)
         time.sleep(5)
         num=num+1
-    print("执行结束")
+    print("---------------------------执行结束---------------------------")
