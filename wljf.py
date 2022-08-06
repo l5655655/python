@@ -4,7 +4,6 @@ import time
 import os
 
 CookieJDs = os.environ["JD_COOKIE"].split('&')
-print(CookieJDs)
 num=1
 
 def jfdh(key, pin):
