@@ -1,5 +1,4 @@
-python库
-此库已有脚本
+python
 bdtbqd.py=百度贴吧签到
 xmyd.py=小米运动刷步数
-kww.py=口味王答题 2022-12-16更新
+kww.py=口味王答题(2022-12-16更新)
