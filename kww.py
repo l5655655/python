@@ -1,15 +1,16 @@
 import json
 import time
-# import pymysql as mysql
+import hashlib
+import random
 import requests
-db = '{1: 1, 2: 1, 3: 1, 4: 1, 5: 4, 6: 1, 7: 1, 8: 1, 9: 1, 10: 1, 11: 1, 12: 1, 13: 2, 14: 1, 15: 2, 16: 1, 17: 2, 18: 2, 19: 1, 20: 1, 21: 4, 22: 1, 23: 4, 24: 1, 25: 3, 26: 1, 27: 4, 28: 1, 29: 4, 30: 4, 31: 1, 32: 4, 33: 1, 34: 1, 35: 1, 36: 1, 37: 4, 38: 1, 39: 3, 40: 4, 41: 2, 42: 1, 43: 2, 44: 4, 45: 4, 46: 2, 47: 1, 48: 1, 49: 1, 50: 2, 51: 4, 52: 4, 53: 1, 54: 3, 55: 3, 56: 4, 57: 4, 58: 4, 59: 1, 60: 4, 61: 1, 62: 1, 63: 1, 64: 2, 65: 1, 66: 3, 67: 1, 68: 1, 69: 4, 70: 4, 71: 4, 72: 1}'
+
+db = '{"1":1,"2":1,"3":1,"4":1,"5":4,"6":1,"7":1,"8":1,"9":1,"10":1,"11":1,"12":1,"13":2,"14":1,"15":2,"16":1,"17":2,"18":2,"19":1,"20":1,"21":4,"22":1,"23":4,"24":1,"25":3,"26":1,"27":4,"28":1,"29":4,"30":4,"31":1,"32":4,"33":1,"34":1,"35":1,"36":1,"37":4,"38":1,"39":3,"40":4,"41":2,"42":1,"43":2,"44":4,"45":4,"46":2,"47":1,"48":1,"49":1,"50":2,"51":4,"52":4,"53":1,"54":3,"55":3,"56":4,"57":4,"58":4,"59":1,"60":4,"61":1,"62":1,"63":1,"64":2,"65":1,"66":3,"67":1,"68":1,"69":4,"70":4,"71":4,"72":1,"73":4,"74":2,"75":4,"76":4,"77":4,"78":1,"79":2,"80":1,"81":2,"82":3,"83":3,"84":4,"85":1,"86":2,"87":3,"88":2,"89":4,"90":2,"91":4,"92":3,"93":4,"94":2,"95":3,"96":2,"97":3,"98":2,"99":4,"100":4,"101":4,"102":3,"103":4,"104":4,"105":4,"106":4}'
 qb = eval(db)
 
 print("开始")
-# 
-#口味王uid填入
-uidlist = ['uid1','uid2','uid3]
-# mycursor = mydb.cursor()
+#
+# 少跑几个号醒来看结果
+uidlist = ['4541973608193162']
 timesalt = int(round(time.time() * 1000))
 
 
@@ -39,20 +40,22 @@ def hqid(ck):
 
 # 获取链接
 def lianjie(uid):
-    url = 'https://member.kwwblcj.com/member/api/info/?userKeys=v1.0&pageName=loginFreePlugin&formName=searchForm&uid={}&levelCode=1&redirect=https%3A%2F%2F89420.activity-20.m.duiba.com.cn%2Fprojectx%2Fp129446ea%2Findex.html%3FappID%3D89420'.format(
-        uid)
+    url = 'https://member.kwwblcj.com/member/api/info/?userKeys=v1.0&pageName=loginFreePlugin&formName=searchForm&uid={}&levelCode=2&redirect=https%3A%2F%2F89420.activity-20.m.duiba.com.cn%2Fprojectx%2Fp129446ea%2Findex.html%3FappID%3D89420&actionType=%E6%AF%8F%E6%97%A5%E7%AD%94%E9%A2%98&actionDesc=https%3A%2F%2F89420.activity-20.m.duiba.com.cn%2Fprojectx%2Fp129446ea%2Findex.html%3FappID%3D89420&objId=C05&memberId={}'.format(
+        uid, uid)
     headers = {
         "Host": "member.kwwblcj.com",
         "Connection": "keep-alive",
         "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36 MicroMessenger/7.0.9.501 NetType/WIFI MiniProgramEnv/Windows WindowsWechat",
         "content-type": "application/json",
-        "Referer": "https://servicewechat.com/wxfb0905b0787971ad/25/page-frame.html",
+        "user-paramname": "memberId",
+        "user-random": "{}".format(nonce),
+        "user-sign": "{}".format(signature),
+        "user-timestamp": "{}".format(timestamp),
+        "Referer": "https://servicewechat.com/wxfb0905b0787971ad/42/page-frame.html",
         "Accept-Encoding": "gzip, deflate"
     }
     res = requests.get(url=url, headers=headers).text
-    print("res=" + res)
     html = json.loads(res)
-    print(html['result'])
     return html['result']
 
 
@@ -115,11 +118,13 @@ def hqtm(ck, yhid):
         print(e)
 
 
+# GET /projectx/p129446ea/answer/submit.do?answer=4&startId=136755714&timestamp=1671150076626&sign=b41600555d264423dcf4f44aaca4f4f2&user_type=1&is_from_share=1&_t=1671150076627 HTTP/1.1
 # 回答题目
 def hdtm(key, ck, yhid):
     try:
-        url = 'https://89420.activity-20.m.duiba.com.cn/projectx/p129446ea/answer/submit.do?answer={}&startId={}&user_type=1&is_from_share=1&_t={}'.format(
-            key, yhid, timesalt)
+        url = 'https://89420.activity-20.m.duiba.com.cn/projectx/p129446ea/answer/submit.do?answer={}&startId={}&timestamp={}&sign={}&user_type=1&is_from_share=1&_t={}'.format(
+            key, yhid, timesalt, answerSign, timesalt + 1)
+        print(url)
         headers = {
             "Accept": "*/*",
             "Accept-Encoding": "gzip, deflate, br",
@@ -147,14 +152,12 @@ def hdtm(key, ck, yhid):
 
 def chaxun(id):
     try:
-        print(id)
-        idd=int(id)
+        idd = "{}".format(id)
         print(qb[idd])
         return qb[idd]
     except:
         print("没有查询到这道题的正确答案")
         return 10
-
 
 
 # def gengxin(correct):
@@ -187,8 +190,57 @@ def tj(ck, yhid):
     res = requests.get(url=url, headers=headers)
     print(res.text)
 
+
+def getSign(uid):
+    l = ["A", "Z", "B", "Y", "C", "X", "D", "T", "E", "S", "F", "R", "G", "Q", "H", "P", "I", "O", "J", "N", "k", "M",
+         "L",
+         "a", "c", "d", "f", "h", "k", "p", "y", "n"]
+    timestamp = getTimestamp()
+    nonce = random.randint(0, 31)
+    data = "{}{}{}".format(timestamp, uid, l[nonce])
+    signature = hashlib.md5(data.encode()).hexdigest()
+    return timestamp, nonce, signature
+
+
+def getTimestamp():
+    timestamp = int(time.time() * 1000)
+    return timestamp
+
+
+def getSalt():
+    url = "https://89420.activity-20.m.duiba.com.cn/projectx/p129446ea/coop_frontVariable.query?user_type=1&is_from_share=1&_t={}".format(
+        getTimestamp())
+    headers = {
+        "Host": "89420.activity-20.m.duiba.com.cn",
+        "Connection": "keep-alive",
+        "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36 MicroMessenger/7.0.9.501 NetType/WIFI MiniProgramEnv/Windows WindowsWechat",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Accept": "*/*",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Dest": "empty",
+        "Referer": "https://89420.activity-20.m.duiba.com.cn/projectx/p129446ea/index.html?appID=89420&from=login&spm=89420.1.1.1",
+        "Accept-Encoding": "gzip, deflate",
+        "Accept-Language": "en-us,en",
+        "Cookie": "{}".format(ck)
+    }
+    html = requests.get(url=url, headers=headers).json()
+    salt = html['data']['salt']
+    return salt
+
+
+def getAnswerSign():
+    timestamp = getTimestamp()
+    c = "{}{}{}{}".format(salt, yhid, key, timestamp)
+    print(c)
+    sign = hashlib.md5(c.encode()).hexdigest()
+    print(sign)
+    return timestamp, sign
+
+
 if __name__ == '__main__':
     for uid in uidlist:
+        timestamp, nonce, signature = getSign(uid)
         lj = lianjie(uid)
         ck = cookie(lj)
         yhid = hqid(ck)
@@ -196,6 +248,8 @@ if __name__ == '__main__':
             id = hqtm(ck, yhid)
             print(id)
             key = chaxun(id)
+            salt = getSalt()
+            timesalt, answerSign = getAnswerSign()
             correct = hdtm(key, ck, yhid)
             # gengxin(correct)
         tj(ck, yhid)
