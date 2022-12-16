@@ -10,7 +10,8 @@ qb = eval(db)
 print("开始")
 #
 # 少跑几个号醒来看结果
-uidlist = ['4541973608193162']
+import os
+uidlist = os.environ["kwwCookies"].split("\n")
 timesalt = int(round(time.time() * 1000))
 
 
